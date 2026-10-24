@@ -1,2 +1,3 @@
 - This is a repo to prototype and test Goose programs.
+- This is the Goose language: http://github.com/aardappel/goose
 - We don't care about breaking changes.
