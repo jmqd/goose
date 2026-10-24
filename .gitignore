@@ -1,0 +1,6 @@
+# nix build
+/result
+/result-*
+
+# goose build puts each executable beside its source.
+/hello_world

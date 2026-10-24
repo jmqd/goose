@@ -50,29 +50,11 @@
         "type": "github"
       }
     },
-    "perennial": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1792812842,
-        "narHash": "sha256-/6nzYoKau87TAVXkWZtA6MlooSmz3sAKlI3SKrAJLjc=",
-        "owner": "mit-pdos",
-        "repo": "perennial",
-        "rev": "ef0f3eef4638a6cd113eedbe47de38468a0d3def",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mit-pdos",
-        "ref": "lean",
-        "repo": "perennial",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-intel-darwin": "nixpkgs-intel-darwin",
-        "perennial": "perennial"
+        "nixpkgs-intel-darwin": "nixpkgs-intel-darwin"
       }
     },
     "systems": {
