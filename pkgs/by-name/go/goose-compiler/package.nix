@@ -46,7 +46,7 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   patches = [
-    # Adds GOOSE_TCC_LIB_PATH and GOOSE_TCC_{SYSINCLUDEPATHS,LIBPATHS,CRTPREFIX}
+    # Adds GOOSE_TCC_LIB_PATH and GOOSE_TCC_{SYSINCLUDEPATHS,LIBPATHS}
     # cache variables, so the binary names its installed TinyCC runtime rather
     # than the build directory, and the in-process backend finds a C library
     # outside /usr. Not yet upstream.
@@ -72,7 +72,6 @@ stdenv.mkDerivation (finalAttrs: {
   ++ lib.optionals stdenv.hostPlatform.isLinux [
     (lib.cmakeFeature "GOOSE_TCC_SYSINCLUDEPATHS" "{B}/include:${lib.getDev libc}/include")
     (lib.cmakeFeature "GOOSE_TCC_LIBPATHS" "{B}:${lib.getLib libc}/lib")
-    (lib.cmakeFeature "GOOSE_TCC_CRTPREFIX" "${lib.getLib libc}/lib")
   ];
 
   # The compiler finds stdlib/ and tcclib/ beside its resolved executable, the

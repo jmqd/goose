@@ -17,10 +17,10 @@ index eaa36831..383cd8aa 100644
  # The blessed packages GOOSE_BUILTIN_LIBS names (src/blessed.txt; `all`, or
  # a list of their names), compiled into the compiler (cmake/package.cmake),
 diff --git a/cmake/libtcc.cmake b/cmake/libtcc.cmake
-index 2f4940e3..bee6ae2b 100644
+index 2f4940e3..d633ea38 100644
 --- a/cmake/libtcc.cmake
 +++ b/cmake/libtcc.cmake
-@@ -86,6 +86,22 @@ if(APPLE)
+@@ -86,6 +86,20 @@ if(APPLE)
      string(APPEND tcc_config
          "#define CONFIG_TCC_SYSINCLUDEPATHS \"{B}/include:${tcc_sdk}/usr/include\"\n")
  endif()
@@ -32,9 +32,7 @@ index 2f4940e3..bee6ae2b 100644
 +    "TinyCC's system include path, ':'-separated (default: the platform's)")
 +set(GOOSE_TCC_LIBPATHS "" CACHE STRING
 +    "TinyCC's library path, ':'-separated, {B} first (default: the platform's)")
-+set(GOOSE_TCC_CRTPREFIX "" CACHE STRING
-+    "The directory of the C library's crt*.o (default: the platform's)")
-+foreach(opt IN ITEMS SYSINCLUDEPATHS LIBPATHS CRTPREFIX)
++foreach(opt IN ITEMS SYSINCLUDEPATHS LIBPATHS)
 +    if(GOOSE_TCC_${opt})
 +        string(APPEND tcc_config
 +            "#undef CONFIG_TCC_${opt}\n#define CONFIG_TCC_${opt} \"${GOOSE_TCC_${opt}}\"\n")
