@@ -1,37 +1,31 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index eaa36831..383cd8aa 100644
+index eaa36831..f8be033e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -133,7 +133,12 @@ target_link_libraries(goose PRIVATE goose_shaderc)
+@@ -133,7 +133,10 @@ target_link_libraries(goose PRIVATE goose_shaderc)
  include(cmake/libtcc.cmake)
  target_link_libraries(goose PRIVATE libtcc)
  add_dependencies(goose tcc_runtime)
 -target_compile_definitions(goose PRIVATE GOOSE_TCC_LIB_PATH="${TCC_STAGE}")
-+# Where the compiler looks for TinyCC's runtime when none is beside it: the
-+# build tree's staged copy, or where a packager installs it, so that the
-+# binary names no build directory.
-+set(GOOSE_TCC_LIB_PATH "${TCC_STAGE}" CACHE PATH
-+    "TinyCC's runtime directory, when there is no tcclib/ beside the compiler")
++# A packager sets this to where it installs tcclib/, so the binary names no
++# build directory. A tcclib/ beside the compiler still wins (src/jit.h).
++set(GOOSE_TCC_LIB_PATH "${TCC_STAGE}" CACHE PATH "TinyCC's runtime directory")
 +target_compile_definitions(goose PRIVATE GOOSE_TCC_LIB_PATH="${GOOSE_TCC_LIB_PATH}")
  
  # The blessed packages GOOSE_BUILTIN_LIBS names (src/blessed.txt; `all`, or
  # a list of their names), compiled into the compiler (cmake/package.cmake),
 diff --git a/cmake/libtcc.cmake b/cmake/libtcc.cmake
-index 2f4940e3..d633ea38 100644
+index 2f4940e3..389b5cd1 100644
 --- a/cmake/libtcc.cmake
 +++ b/cmake/libtcc.cmake
-@@ -86,6 +86,20 @@ if(APPLE)
+@@ -86,6 +86,16 @@ if(APPLE)
      string(APPEND tcc_config
          "#define CONFIG_TCC_SYSINCLUDEPATHS \"{B}/include:${tcc_sdk}/usr/include\"\n")
  endif()
-+# Where the C library is not where the defaults above look (a Nix or Guix
-+# store, a sysroot), a packager names its directories instead. Each one set
-+# replaces what the platform blocks above chose; TinyCC substitutes {B} with
-+# the staged directory.
-+set(GOOSE_TCC_SYSINCLUDEPATHS "" CACHE STRING
-+    "TinyCC's system include path, ':'-separated (default: the platform's)")
-+set(GOOSE_TCC_LIBPATHS "" CACHE STRING
-+    "TinyCC's library path, ':'-separated, {B} first (default: the platform's)")
++# For a C library outside the paths above, as in a Nix store: each one set
++# replaces the platform's value. {B} is the staged directory.
++set(GOOSE_TCC_SYSINCLUDEPATHS "" CACHE STRING "TinyCC's include path, ':'-separated")
++set(GOOSE_TCC_LIBPATHS "" CACHE STRING "TinyCC's library path, ':'-separated, {B} first")
 +foreach(opt IN ITEMS SYSINCLUDEPATHS LIBPATHS)
 +    if(GOOSE_TCC_${opt})
 +        string(APPEND tcc_config
