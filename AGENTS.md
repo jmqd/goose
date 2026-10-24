@@ -1,0 +1,2 @@
+- This is a repo to prototype and test Goose programs.
+- We don't care about breaking changes.
